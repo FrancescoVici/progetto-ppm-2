@@ -1,0 +1,1 @@
+web: gunicorn progetto-ppm-2.wsgi:application --log-file -
