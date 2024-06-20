@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/buy/user/')
+                .then(response => response.json())
+                .then(data => {
+                    const userList = document.getElementById('user-list');
+                    data.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = `${user.username} - ${user.email}`;
+                        userList.appendChild(li);
+                    });
+                });
+        });
+    </script>
+</head>
+<body>
+    <h1>User List</h1>
+    <a href="{% url 'user-add' %}">Add User</a>
+    <ul id="user-list"></ul>
+    <a href="{% url 'index' %}">Back to Home</a>
+</body>
+</html>

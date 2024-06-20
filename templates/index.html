@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1>Main Page</h1>
-    <button id="load-events">Load Events</button> <!-- Bottone per caricare gli eventi -->
+    <button id="load-events">Load Events</button> 
     <ul id="events-list">
-        <!-- Gli eventi saranno caricati qui -->
+      
     </ul>
 
     <script>
@@ -18,9 +18,9 @@
             $('#load-events').click(function() {
                 $.ajax({
                     type: 'GET',
-                    url: '/plan/events/',  // Sostituisci con l'URL corretto per recuperare gli eventi
+                    url: '/plan/events/',  
                     success: function(response) {
-                        $('#events-list').empty();  // Svuota la lista precedente
+                        $('#events-list').empty();  
                         $.each(response, function(index, event) {
                             $('#events-list').append(`<li>${event.id}: ${event.name} - ${event.date}</li>`);
                         });
@@ -33,5 +33,17 @@
         });
     </script>
 </body>
-</html>
+</html> -->
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <button onclick="window.location.href='{% url 'user-list' %}'">View User List</button>
+    <button onclick="window.location.href='{% url 'user-add' %}'">Add User</button>
+</body>
+</html>

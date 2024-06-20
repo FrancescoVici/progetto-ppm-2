@@ -4,7 +4,7 @@ from .views import main_view
 
 
 urlpatterns = [
-   path('', main_view, name='main'),
+   path('', main_view, name='index'),
     path('ticket/', include('ticket_api.urls')),
     path('pay/', include('payment_api.urls')),
     path('plan/', include('planning_api.urls')),
