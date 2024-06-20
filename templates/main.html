@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Main Page</h1>
+    <button id="load-events">Load Events</button> <!-- Bottone per caricare gli eventi -->
+    <ul id="events-list">
+        <!-- Gli eventi saranno caricati qui -->
+    </ul>
+
+    <script>
+        $(document).ready(function() {
+            $('#load-events').click(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/plan/events/',  // Sostituisci con l'URL corretto per recuperare gli eventi
+                    success: function(response) {
+                        $('#events-list').empty();  // Svuota la lista precedente
+                        $.each(response, function(index, event) {
+                            $('#events-list').append(`<li>${event.id}: ${event.name} - ${event.date}</li>`);
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error loading events:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

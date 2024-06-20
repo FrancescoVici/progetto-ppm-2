@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Create Planning</title>
+</head>
+<body>
+    <h2>Create Planning</h2>
+    <form id="planning-form">
+        <label for="event">Event:</label>
+        <select id="event" name="event">
+            {% for event in events %}
+                <option value="{{ event.id }}">{{ event.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="location">Location:</label>
+        <select id="location" name="location">
+            {% for location in locations %}
+                <option value="{{ location.id }}">{{ location.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="date">Date:</label>
+        <input type="datetime-local" id="date" name="date">
+        <br>
+        <button type="button" onclick="createPlanning()">Create Planning</button>
+    </form>
+
+    <script>
+        async function createPlanning() {
+            const form = document.getElementById('planning-form');
+            const formData = new FormData(form);
+    
+            const data = {
+                event: formData.get('event'),
+                location: formData.get('location'),
+                date: formData.get('date')
+            };
+    
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+            try {
+                const response = await fetch('/plan/create/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify(data)
+                });
+    
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('Planning created successfully');
+                    console.log(result);
+                } else {
+                    alert('Error creating planning');
+                    console.error('Error:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

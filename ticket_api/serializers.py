@@ -1,21 +1,22 @@
 from rest_framework import serializers
-from .models import Seat,Ticket
+from .models import Seat, Ticket
+from planning_api.models import Planning
 
 class SeatSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Seat
-        fields = ['id','seat','row']
-
-    def create(self,data):
-        return Seat.objects.create(**data)
-
-
+        fields = '__all__'
 
 class TicketSerializer(serializers.ModelSerializer):
-    seat = SeatSerializer(read_only=True)
-    seat_id = serializers.PrimaryKeyRelatedField(queryset=Seat.objects.all(), source='seat', write_only=True)
+    planning = serializers.PrimaryKeyRelatedField(queryset=Planning.objects.all())
+    seat = SeatSerializer()
 
     class Meta:
         model = Ticket
-        fields = ['id', 'seat', 'seat_id', 'price', 'event']
+        fields = '__all__'
+
+    def create(self, validated_data):
+        seat_data = validated_data.pop('seat')
+        seat = Seat.objects.create(**seat_data)
+        ticket = Ticket.objects.create(seat=seat, **validated_data)
+        return ticket
